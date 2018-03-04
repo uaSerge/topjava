@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MealWithExceed {
     private final LocalDateTime dateTime;
@@ -16,6 +17,26 @@ public class MealWithExceed {
         this.description = description;
         this.calories = calories;
         this.exceed = exceed;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getFormatDateTime() {
+        return dateTime.toString().replace('T',' ');
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public boolean isExceed() {
+        return exceed;
     }
 
     @Override
