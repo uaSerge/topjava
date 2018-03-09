@@ -13,6 +13,13 @@
 <head>
     <title>Meals</title>
     <style type="text/css">
+        .tb {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            border-spacing: 5px;
+            border-color: #152c24;
+            padding: 10px 5px;
+        }
         .tg {
             border-collapse: collapse;
             border-spacing: 0;
@@ -35,7 +42,7 @@
         .tg th {
             font-family: Arial, sans-serif;
             font-size: 14px;
-            font-weight: normal;
+            font-weight: bold;
             padding: 10px 5px;
             border-style: solid;
             border-width: 1px;
@@ -69,13 +76,14 @@
 <c:if test="${!empty meal}">
     <table class="tg">
         <tr>
+            <th width="60">ID</th>
             <th width="160">dateTime</th>
             <th width="120">description</th>
             <th width="120">calories</th>
             <th width="120">exceed</th>
         </tr>
 
-        <c:forEach items="${meal}" var="meal">
+        <c:forEach items="${meal}" var="meal1">
             <%--<c:choose>--%>
                 <%--<c:when test="${meal.exceed}">--%>
                     <%--<tr ID=true>--%>
@@ -86,17 +94,36 @@
                     <%--</tr>--%>
                 <%--</c:when>--%>
                 <%--<c:otherwise>--%>
-                    <tr ID="${meal.exceed}">
-                        <td>${meal.getFormatDateTime()}</td>
-                        <td>${meal.description}</td>
-                        <td>${meal.calories}</td>
-                        <td>${meal.exceed}</td>
+                    <tr ID="${meal1.exceed}">
+                        <td>${meal1.getID()}</td>
+                        <td>${meal1.getFormatDateTime()}</td>
+                        <td>${meal1.description}</td>
+                        <td>${meal1.calories}</td>
+                        <td>${meal1.exceed}</td>
                     </tr>
                 <%--</c:otherwise>--%>
             <%--</c:choose>--%>
         </c:forEach>
     </table>
 </c:if>
-
+<p/>
+<form method="post">
+    <label class="tb">Date & Time:
+        <input type="datetime-local" name="date" value="2018-12-19T16:39:00"><br />
+    </label>
+    <%--<label class="tb">Time:--%>
+        <%--<input type="time" name="time"><br />--%>
+    <%--</label>--%>
+    <p/>
+    <label class="tb">Description:
+        <input type="text" name="description"><br />
+    </label>
+    <p/>
+    <label class="tb">Calories:
+        <input type="number" name="calories"><br />
+    </label>
+    <p/>
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>

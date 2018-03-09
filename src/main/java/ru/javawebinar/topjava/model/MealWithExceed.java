@@ -2,21 +2,25 @@ package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class MealWithExceed {
     private final LocalDateTime dateTime;
-
     private final String description;
-
     private final int calories;
-
     private final boolean exceed;
+    private volatile int myID;
 
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
+    public MealWithExceed(int ID, LocalDateTime dateTime, String description, int calories, boolean exceed) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
         this.exceed = exceed;
+        myID = ID;
+    }
+
+    public int getID() {
+        return myID;
     }
 
     public LocalDateTime getDateTime() {
@@ -24,7 +28,7 @@ public class MealWithExceed {
     }
 
     public String getFormatDateTime() {
-        return dateTime.toString().replace('T',' ');
+        return dateTime.toString().replace('T', ' ');
     }
 
     public String getDescription() {
@@ -47,5 +51,23 @@ public class MealWithExceed {
                 ", calories=" + calories +
                 ", exceed=" + exceed +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MealWithExceed that = (MealWithExceed) o;
+        return calories == that.calories &&
+                exceed == that.exceed &&
+                myID == that.myID &&
+                Objects.equals(dateTime, that.dateTime) &&
+                Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(dateTime, description, calories, exceed, myID);
     }
 }
