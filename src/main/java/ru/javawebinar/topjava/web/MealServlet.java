@@ -23,9 +23,14 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("redirect to meals");
         request.setAttribute("meal", MealDaoImpl.getInstance().getListMealWithExceeded());
+        String action = request.getParameter("action");
+        String id = request.getParameter("id");
+        if (action != null && action.equals("delete")) {
+            MealDaoImpl.getInstance().removeMeal(Integer.parseInt(id));
+        }
+//        request.setAttribute("delete",MealDaoImpl.getInstance().removeMeal(Integer.parseInt((String) request.getAttribute("id"))));
 //        response.sendRedirect("meals.jsp");
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
-
     }
 
     @Override

@@ -39,8 +39,8 @@ public class MealDaoImpl implements MealDao {
     }
 
     @Override
-    public void removeMeal(int id) {
-       listMeal.removeIf(meal -> meal.getID() == id);
+    public boolean removeMeal(int id) {
+       return listMeal.removeIf(meal -> meal.getID() == id);
     }
 
     @Override

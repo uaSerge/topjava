@@ -81,6 +81,7 @@
             <th width="120">description</th>
             <th width="120">calories</th>
             <th width="120">exceed</th>
+            <th width="120">Action</th>
         </tr>
 
         <c:forEach items="${meal}" var="meal1">
@@ -95,11 +96,12 @@
                 <%--</c:when>--%>
                 <%--<c:otherwise>--%>
                     <tr ID="${meal1.exceed}">
-                        <td>${meal1.getID()}</td>
+                        <td>${meal1.myID}</td>
                         <td>${meal1.getFormatDateTime()}</td>
                         <td>${meal1.description}</td>
                         <td>${meal1.calories}</td>
                         <td>${meal1.exceed}</td>
+                        <td><a href="/meals?action=delete&id=${meal1.myID}">Delete</a></td>
                     </tr>
                 <%--</c:otherwise>--%>
             <%--</c:choose>--%>

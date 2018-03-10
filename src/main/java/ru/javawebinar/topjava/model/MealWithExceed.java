@@ -9,7 +9,7 @@ public class MealWithExceed {
     private final String description;
     private final int calories;
     private final boolean exceed;
-    private volatile int myID;
+    private final int myID;
 
     public MealWithExceed(int ID, LocalDateTime dateTime, String description, int calories, boolean exceed) {
         this.dateTime = dateTime;
@@ -19,7 +19,7 @@ public class MealWithExceed {
         myID = ID;
     }
 
-    public int getID() {
+    public int getMyID() {
         return myID;
     }
 
