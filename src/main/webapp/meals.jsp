@@ -111,7 +111,7 @@
 <p/>
 <form method="post">
     <label class="tb">Date & Time:
-        <input type="datetime-local" name="date" value="2018-12-19T16:39:00"><br />
+        <input type="datetime-local" name="date" ><br />
     </label>
     <%--<label class="tb">Time:--%>
         <%--<input type="time" name="time"><br />--%>
