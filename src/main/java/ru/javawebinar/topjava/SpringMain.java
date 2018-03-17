@@ -21,6 +21,7 @@ public class SpringMain {
             adminUserController.create(new User(null, "userName", "email", "password", Role.ROLE_ADMIN));
             MealRestController controller = appCtx.getBean(MealRestController.class);
             System.out.println(controller.create(new Meal(LocalDateTime.now(),"Dinner", 1000)));
+            System.out.println(controller.getAll());
         }
 //        catch (Exception e){e.getStackTrace();}
 
