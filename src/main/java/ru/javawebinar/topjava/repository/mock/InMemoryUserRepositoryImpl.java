@@ -17,14 +17,15 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
 
     @Override
-    public void delete(int id) {
+    public Boolean delete(int id) {
         log.info("delete {}", id);
-        repository.remove(id);
+        return repository.remove(id) != null;
     }
 
     @Override
     public User save(User user) {
         log.info("save {}", user);
+        if (user.getId() == null) user.setId(0);
         return repository.put(user.getId(),user);
     }
 
