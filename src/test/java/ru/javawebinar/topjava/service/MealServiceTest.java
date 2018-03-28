@@ -53,7 +53,8 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenDateTimes() {
-
+        List<Meal> allB = service.getBetweenDateTimes(LocalDateTime.MIN,LocalDateTime.MAX,ADMIN_ID);
+        assertMatch(allB, MEAL_AD2, MEAL_AD1);
     }
 
     @Test
@@ -74,6 +75,7 @@ public class MealServiceTest {
 
     @Test
     public void create() {
-
+        Meal meal = new Meal(MEAL_AD1);
+        assertMatch(meal, MEAL_AD1);
     }
 }

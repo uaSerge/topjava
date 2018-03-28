@@ -24,8 +24,8 @@ CREATE TABLE meals
   dateTime         TIMESTAMP DEFAULT now()    NOT NULL,
   description      VARCHAR                 NOT NULL,
   calories          INTEGER                NOT NULL,
-  user_id         INTEGER DEFAULT 100001 NOT NULL
---   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+  user_id         INTEGER DEFAULT 100001 NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_roles
