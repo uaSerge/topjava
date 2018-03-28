@@ -17,6 +17,7 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -77,5 +78,10 @@ public class MealServiceTest {
     public void create() {
         Meal meal = new Meal(MEAL_AD1);
         assertMatch(meal, MEAL_AD1);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void notFoundDelete() throws Exception {
+        service.delete(MEAL_AD1_ID, USER_ID);
     }
 }

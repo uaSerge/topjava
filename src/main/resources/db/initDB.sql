@@ -25,10 +25,13 @@ CREATE TABLE meals
   description      VARCHAR                 NOT NULL,
   calories          INTEGER                NOT NULL,
   user_id         INTEGER DEFAULT 100001 NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+  CONSTRAINT users_date UNIQUE (dateTime, user_id)
 );
 
-CREATE TABLE user_roles
+CREATE INDEX ON meals(dateTime);
+
+  CREATE TABLE user_roles
 (
   user_id INTEGER NOT NULL,
   role    VARCHAR,
