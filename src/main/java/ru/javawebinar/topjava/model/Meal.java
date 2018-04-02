@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id"),
-        @NamedQuery(name = Meal.ALL_SORTED_DATE, query = "SELECT m FROM Meal m WHERE user_id=?1  AND date_time BETWEEN  ?2 AND ?3 ORDER BY date_time DESC"),
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m  ORDER BY date_time DESC")
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND user_id=?1"),
+        @NamedQuery(name = Meal.ALL_SORTED_DATE, query = "SELECT m FROM Meal m WHERE user_id=?1  AND date_time >= ?2 AND date_time <= ?3 ORDER BY date_time DESC"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m  WHERE user_id=?1 ORDER BY date_time DESC")
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {
@@ -32,7 +32,7 @@ public class Meal extends AbstractBaseEntity {
     private int calories;
 
     @Column(name = "user_id", nullable = false)
-//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     public Meal() {
