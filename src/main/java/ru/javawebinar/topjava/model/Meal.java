@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND user_id=?1"),
-        @NamedQuery(name = Meal.ALL_SORTED_DATE, query = "SELECT m FROM Meal m LEFT JOIN FETCH User AS user_id WHERE user_id=?1  AND date_time >= ?2 AND date_time <= ?3 ORDER BY date_time DESC"),
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
+        @NamedQuery(name = Meal.ALL_SORTED_DATE, query = "SELECT m FROM Meal m WHERE m.user.id=?1  AND m.dateTime >= ?2 AND m.dateTime <= ?3 ORDER BY m.dateTime DESC"),
 //      @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m  LEFT JOIN FETCH m.user WHERE user_id=?1 ORDER BY date_time DESC"),
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user_id=:userId ORDER BY m.date_time DESC")
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
 })
 @Entity
 @Table(name = "meals", uniqueConstraints = {
@@ -19,7 +19,7 @@ import java.time.LocalTime;
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
-    public static final String ALL_SORTED_DATE = "Meal.getAllSorted";
+    public static final String ALL_SORTED_DATE = "Meal.getBetween";
     public static final String ALL_SORTED = "Meal.getAllSorted";
 
     @Column(name = "date_time", columnDefinition = "timestamp default now()")
@@ -32,10 +32,10 @@ public class Meal extends AbstractBaseEntity {
     @Column(name = "calories", nullable = false)
     private int calories;
 
-    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "user_id", nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @ElementCollection(fetch = FetchType.EAGER)
+
+
+@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+@JoinColumn(name = "user_id")
     private User user;
 
     public Meal() {

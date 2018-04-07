@@ -2,8 +2,11 @@ package ru.javawebinar.topjava.repository.jpa;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.web.user.ProfileRestController;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,6 +23,8 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        User ref = em.getReference(User.class, userId);
+        meal.setUser(ref);
         if (meal.isNew()) {
             em.persist(meal);
             return meal;
@@ -38,7 +43,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public Meal get(int id, int userId) {
         return em.find(Meal.class, id);
     }
@@ -47,7 +52,7 @@ public class JpaMealRepositoryImpl implements MealRepository {
 //    @Transactional
     public List<Meal> getAll(int userId) {
         return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
-                .setParameter("user_id", userId)
+                .setParameter("userId", userId)
                 .getResultList();
     }
     //"SELECT * FROM meals WHERE user_id=?  AND date_time BETWEEN  ? AND ? ORDER BY date_time DESC"
@@ -55,9 +60,9 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Transactional
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return  em.createNamedQuery(Meal.ALL_SORTED_DATE, Meal.class)
-                .setParameter("user_id", userId)
-                .setParameter("startDate", startDate)
-                .setParameter("endDate", endDate)
+                .setParameter(1, userId)
+                .setParameter(2, startDate)
+                .setParameter(3, endDate)
                 .getResultList();
     }
 }
