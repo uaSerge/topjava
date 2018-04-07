@@ -34,7 +34,7 @@ public class Meal extends AbstractBaseEntity {
 
 
 
-@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 @JoinColumn(name = "user_id")
     private User user;
 
