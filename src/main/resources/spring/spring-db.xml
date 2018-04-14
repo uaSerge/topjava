@@ -85,6 +85,7 @@
     <beans profile="jdbc">
     </beans>
     <beans profile="jpa">
+
     </beans>
     <beans profile="datajpa">
     </beans>
