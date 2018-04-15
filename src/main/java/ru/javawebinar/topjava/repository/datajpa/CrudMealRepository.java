@@ -28,7 +28,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Transactional
     @Modifying
     @Query(name = Meal.DELETE)
-    boolean delete(@Param("id")int id, @Param("id")int userId);
+    void deleteMealByIdAAndUserId(@Param("id")int id, @Param("userId")int userId);
 
     // null if meal do not belong to userId
     @Override
@@ -40,7 +40,7 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Transactional
     @Modifying
     @Query(name = Meal.ALL_SORTED)
-    List<Meal> findAllById(@Param("id")int userId);
+    List<Meal> findAllById(@Param("userId")int userId);
 
 
     // ORDERED dateTime desc
