@@ -6,16 +6,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.javawebinar.topjava.ActiveDbProfileResolver;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -30,9 +23,9 @@ import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 
-@ActiveProfiles(profiles={Profiles.HSQL_DB, Profiles.DATAJPA})
+@ActiveProfiles(profiles={Profiles.POSTGRES_DB, Profiles.DATAJPA})
 
-public class MealServiceTest extends ServiceTest{
+public class MealServiceTestPG extends ServiceTest{
     private static final Logger log = getLogger("result");
 
     private static StringBuilder results = new StringBuilder();
