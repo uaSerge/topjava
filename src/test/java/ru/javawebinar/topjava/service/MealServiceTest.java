@@ -29,10 +29,7 @@ import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
-
-@ActiveProfiles(profiles={Profiles.HSQL_DB, Profiles.DATAJPA})
-
-public class MealServiceTest extends ServiceTest{
+abstract public class MealServiceTest extends ServiceTest{
     private static final Logger log = getLogger("result");
 
     private static StringBuilder results = new StringBuilder();

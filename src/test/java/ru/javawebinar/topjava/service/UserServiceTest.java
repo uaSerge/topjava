@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +25,8 @@ import java.util.List;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-@ActiveProfiles(profiles={Profiles.HSQL_DB, Profiles.DATAJPA})
-public class UserServiceTest extends ServiceTest{
+
+abstract public class UserServiceTest extends ServiceTest{
 
     @Autowired
     private UserService service;
