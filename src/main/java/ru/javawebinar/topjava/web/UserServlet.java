@@ -21,7 +21,7 @@ public class UserServlet extends HttpServlet {
     private AdminRestController adminController;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public  void init(ServletConfig config) throws ServletException {
         super.init(config);
         WebApplicationContext springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         adminController = springContext.getBean(AdminRestController.class);
