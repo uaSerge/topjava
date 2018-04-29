@@ -47,6 +47,7 @@ abstract public class AbstractServiceTest {
             runnable.run();
             Assert.fail("Expected " + exceptionClass.getName());
         } catch (Exception e) {
+            System.out.println("Ошибка"+getRootCause(e)+e.toString());
             Assert.assertThat(getRootCause(e), instanceOf(exceptionClass));
         }
     }
