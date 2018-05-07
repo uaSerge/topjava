@@ -19,6 +19,7 @@ tr[data-mealExceed="false"] {
     color: green;
 }
 
+
 tr[data-mealExceed="true"] {
     color: red;
 }
