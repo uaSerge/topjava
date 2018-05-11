@@ -90,6 +90,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(contentJson(MEALS));
     }
 
+
     @Test
     public void getBetweenTest() throws Exception{
         mockMvc.perform(get(REST_URL + "filter?startDate=2015-05-31&startTime=00:00&endDate=&endTime="))
