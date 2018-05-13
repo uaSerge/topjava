@@ -34,4 +34,5 @@ public class SpringMain {
             filteredMealsWithExceeded.forEach(System.out::println);
         }
     }
+
 }
