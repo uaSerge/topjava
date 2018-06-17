@@ -1,17 +1,44 @@
 package ru.javawebinar.topjava.to;
 
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class MealWithExceed extends BaseTo {
+public class MealWithExceed extends BaseTo implements Serializable {
 
-    private final LocalDateTime dateTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @PastOrPresent
+//    @NotBlank
+    private  LocalDateTime dateTime;
 
-    private final String description;
+//    @NotBlank
+    @Size(min = 3, max = 50, message = "length must between 3 and 50 characters")
+    private  String description;
 
-    private final int calories;
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    private final boolean exceed;
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public void setExceed(boolean exceed) {
+        this.exceed = exceed;
+    }
+
+//    @NotNull
+    @Range(min = 10, max = 10000)
+    private int calories;
+
+//    @NotEmpty
+    private boolean exceed;
+
+    public MealWithExceed(){}
 
     public MealWithExceed(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceed) {
         super(id);
@@ -25,6 +52,9 @@ public class MealWithExceed extends BaseTo {
         return dateTime;
     }
 
+    public void setDateTime(LocalDateTime localDateTime) {
+        this.dateTime = localDateTime;
+    }
     public String getDescription() {
         return description;
     }
