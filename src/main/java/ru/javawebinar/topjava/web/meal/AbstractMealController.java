@@ -63,10 +63,10 @@ public abstract class AbstractMealController {
         service.update(meal, userId);
     }
     public void update(MealWithExceed meal, int id) {
-//        int userId = AuthorizedUser.id();
+        int userId = AuthorizedUser.id();
         assureIdConsistent(meal, id);
         log.info("update {} for user {}", meal, id);
-        service.update(MealsUtil.createNewFromMealWithExceed(meal), id);
+        service.update(meal, userId);
     }
 
     /**
