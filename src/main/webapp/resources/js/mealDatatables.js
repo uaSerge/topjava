@@ -57,3 +57,47 @@ $(function () {
     "initComplete": makeEditable
     });
 });
+
+jQuery(function(){
+    jQuery('#date_timepicker_start').datetimepicker({
+        format:'Y-m-d',
+        onShow:function( ct ){
+            this.setOptions({
+                maxDate:jQuery('#date_timepicker_end').val()?jQuery('#date_timepicker_end').val():false
+            })
+        },
+        timepicker:false
+    });
+    jQuery('#date_timepicker_end').datetimepicker({
+        format:'Y-m-d',
+        onShow:function( ct ){
+            this.setOptions({
+                minDate:jQuery('#date_timepicker_start').val()?jQuery('#date_timepicker_start').val():false
+            })
+        },
+        timepicker:false
+    });
+});
+
+jQuery('#datetimepicker5').datetimepicker({
+    datepicker:true,
+    allowTimes:[
+        '12:00', '13:00', '15:00',
+        '17:00', '17:05', '17:20', '19:00', '20:00'
+    ]
+});
+jQuery('#datetimepicker6').datetimepicker({
+    datepicker:false,
+    format:'H:i'
+})
+
+jQuery('#timepicker1').datetimepicker({
+    datepicker:false,
+    format:'H:i'
+});
+
+jQuery('#datetimepicker').datetimepicker(
+    {
+        format:'Y-m-d H:i'}
+    // /u0054
+);

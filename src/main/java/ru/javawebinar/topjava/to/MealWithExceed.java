@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.to;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,7 +13,6 @@ public class MealWithExceed extends BaseTo implements Serializable {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @PastOrPresent
-//    @NotBlank
     private  LocalDateTime dateTime;
 
 //    @NotBlank
