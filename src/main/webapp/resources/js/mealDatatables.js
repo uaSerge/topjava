@@ -24,7 +24,13 @@ $(function () {
         "info": true,
         "columns": [
             {
-                "data": "dateTime"
+                "data": "dateTime",
+                "render" : function (data, type, row) {
+                    if (type == "display") {
+                        return data.replace('T',' ');
+                    }
+                    return data;
+                },
             },
             {
                 "data": "description"
@@ -98,6 +104,7 @@ jQuery('#timepicker1').datetimepicker({
 
 jQuery('#datetimepicker').datetimepicker(
     {
-        format:'Y-m-d H:i'}
-    // /u0054
+        format:'Y-m-d\\TH:i'
+
+    }
 );
