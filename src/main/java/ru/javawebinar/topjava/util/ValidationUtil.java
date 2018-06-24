@@ -71,4 +71,11 @@ public class ValidationUtil {
                 });
         return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
-}
+
+    public static String getBindingResultString(BindingResult result) {
+        String r = null;
+        if (result.hasErrors()) {
+            r = ValidationUtil.getErrorResponse(result).getBody();
+        }
+        return r;
+}}
