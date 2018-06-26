@@ -6,10 +6,12 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +47,7 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
-    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class,BindException.class, ConstraintViolationException.class, TransactionSystemException.class})
+    @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class, BindException.class, ConstraintViolationException.class, TransactionSystemException.class})
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e, BindingResult result) {
         return logAndGetErrorInfoNew(req, e, false, VALIDATION_ERROR, result);
     }
@@ -56,13 +58,19 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, true, APP_ERROR);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorInfo handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException error, BindingResult result) {
+        return logAndGetErrorInfoNew(req, error, false, VALIDATION_ERROR, result);
+    }
+
     private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
         String result = rootCause.toString();
         if (e instanceof BindException) {
-        BindException rootCause1 = (BindException) rootCause;
+            BindException rootCause1 = (BindException) rootCause;
 //        Throwable rootCause = ValidationUtil.getRootCause(e);
-        result = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());}
+            result = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());
+        }
 
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
@@ -79,7 +87,6 @@ public class ExceptionInfoHandler {
 //        if (e instanceof BindException) {
 //            BindException rootCause1 = (BindException) rootCause;
 //            resultS = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());}
-
         resultS = ValidationUtil.getErrorResponse(result).getBody();
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
