@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.user;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
@@ -36,11 +37,12 @@ public class AdminAjaxController extends AbstractUserController {
     }
 
     @PostMapping
-    public void createOrUpdate(@Valid UserTo userTo, BindingResult result) {
-//        if (result.hasErrors()) {
+    public void createOrUpdate(@Valid UserTo userTo, BindingResult result) throws BindException{
+        if (result.hasErrors()) {
 //            // TODO change to exception handler
+            throw new BindException(result);
 //            return ValidationUtil.getErrorResponse(result);
-//        }
+        }
         if (userTo.isNew()) {
             super.create(UserUtil.createNewFromTo(userTo));
         } else {

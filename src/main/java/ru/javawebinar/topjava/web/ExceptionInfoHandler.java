@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +46,8 @@ public class ExceptionInfoHandler {
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class,BindException.class, ConstraintViolationException.class, TransactionSystemException.class})
-    public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
-        return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
+    public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e, BindingResult result) {
+        return logAndGetErrorInfoNew(req, e, false, VALIDATION_ERROR, result);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -62,11 +63,29 @@ public class ExceptionInfoHandler {
         BindException rootCause1 = (BindException) rootCause;
 //        Throwable rootCause = ValidationUtil.getRootCause(e);
         result = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());}
+
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
         } else {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
         return new ErrorInfo(req.getRequestURL(), errorType, result);
+    }
+
+    private static ErrorInfo logAndGetErrorInfoNew(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType, BindingResult result) {
+        Throwable rootCause = ValidationUtil.getRootCause(e);
+//        String resultS = rootCause.toString();
+        String resultS;
+//        if (e instanceof BindException) {
+//            BindException rootCause1 = (BindException) rootCause;
+//            resultS = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());}
+
+        resultS = ValidationUtil.getErrorResponse(result).getBody();
+        if (logException) {
+            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
+        } else {
+            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+        }
+        return new ErrorInfo(req.getRequestURL(), errorType, resultS);
     }
 }
