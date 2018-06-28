@@ -17,5 +17,12 @@
                 </button>
             </sec:authorize>
         </form:form>
+        <%--<li class="nav-item dropdown">--%>
+            <%--<a class="dropdown-toggle nav-link my-1 ml-2" data-toggle="dropdown" aria-expanded="false">en</a>--%>
+            <%--<div class="dropdown-menu">--%>
+                <%--<a class="dropdown-item" href="/login?lang=en">English</a>--%>
+                <%--<a class="dropdown-item" href="/login?lang=ru">Русский</a>--%>
+            <%--</div>--%>
+        <%--</li>--%>
     </div>
 </nav>

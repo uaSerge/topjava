@@ -49,18 +49,18 @@ public class ExceptionInfoHandler {
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class, BindException.class, ConstraintViolationException.class, TransactionSystemException.class})
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e, BindingResult result) {
-        return logAndGetErrorInfoNew(req, e, false, VALIDATION_ERROR, result);
+        return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR, result);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ErrorInfo handleError(HttpServletRequest req, Exception e) {
-        return logAndGetErrorInfo(req, e, true, APP_ERROR);
+    public ErrorInfo handleError(HttpServletRequest req, Exception e, BindingResult result) {
+        return logAndGetErrorInfo(req, e, true, APP_ERROR, result);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorInfo handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException error, BindingResult result) {
-        return logAndGetErrorInfoNew(req, error, false, VALIDATION_ERROR, result);
+        return logAndGetErrorInfo(req, error, false, VALIDATION_ERROR, result);
     }
 
     private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
@@ -68,7 +68,6 @@ public class ExceptionInfoHandler {
         String result = rootCause.toString();
         if (e instanceof BindException) {
             BindException rootCause1 = (BindException) rootCause;
-//        Throwable rootCause = ValidationUtil.getRootCause(e);
             result = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());
         }
 
@@ -80,14 +79,13 @@ public class ExceptionInfoHandler {
         return new ErrorInfo(req.getRequestURL(), errorType, result);
     }
 
-    private static ErrorInfo logAndGetErrorInfoNew(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType, BindingResult result) {
+    private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType, BindingResult result) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
 //        String resultS = rootCause.toString();
-        String resultS;
 //        if (e instanceof BindException) {
 //            BindException rootCause1 = (BindException) rootCause;
 //            resultS = ValidationUtil.getBindingResultString(rootCause1.getBindingResult());}
-        resultS = ValidationUtil.getErrorResponse(result).getBody();
+        String resultS = ValidationUtil.getErrorResponse(result).getBody();
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
         } else {
