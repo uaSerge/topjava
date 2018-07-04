@@ -1,4 +1,4 @@
-﻿package ru.javawebinar.topjava.util.exception;
+package ru.javawebinar.topjava.util.exception;
 
 import org.springframework.http.HttpStatus;
 

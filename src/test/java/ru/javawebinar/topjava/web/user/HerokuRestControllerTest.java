@@ -1,4 +1,4 @@
-﻿package ru.javawebinar.topjava.web.user;
+package ru.javawebinar.topjava.web.user;
 
 import org.junit.Test;
 import org.springframework.core.env.PropertySource;
